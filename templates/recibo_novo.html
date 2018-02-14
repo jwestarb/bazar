@@ -1,0 +1,114 @@
+{% extends '_base.html' %}
+
+{% block content %}
+
+<div>
+    <h2>Novo Recibo</h2>
+    {{ form.non_field_errors }}
+
+    {% for field in form.visible_fields %}
+          {{ field.errors }}
+    {% endfor %}
+
+
+
+<form action="{% url 'recibo_novo' cadastro.senha %}" method="post">
+    {% csrf_token %}
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+    <table>
+      <tr>
+        <td>Senha:</td>
+        <td colspan="2">{{ cadastro.senha }}</td>
+      </tr>
+      <tr>
+        <td>CPF:</td>
+        <td colspan="2">{{ cadastro.cpf }}</td>
+      </tr>
+      <tr>
+        <td>Nome:</td>
+        <td colspan="2">{{ cadastro.nome }}</td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr></td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td>Qtd</td>
+        <td>Valor</td>
+       </tr>
+       <tr>
+        <td>Brinquedos</td>
+        <td><input type="number" name="brinquedo_qt" value="0" min="0" required id="id_brinquedo_qt" class="form-control" /></td>
+        <td><input type="text" name="brinquedo_vl" value="0,00" required id="id_brinquedo_vl" class="form-control edValor" /></td>
+       </tr>
+       <tr>
+        <td>Artigos de Bazar</td>
+        <td><input type="number" name="bazar_qt" value="0" min="0" required id="id_bazar_qt" class="form-control" /></td>
+        <td><input type="text" name="bazar_vl" value="0,00" required id="id_bazar_vl" class="form-control edValor" /></td>
+       </tr>
+       <tr>
+        <td>Equipamentos Eletrônicos</td>
+        <td><input type="number" name="eletro_qt" value="0" min="0" required id="id_eletro_qt" class="form-control" /></td>
+        <td><input type="text" name="eletro_vl" value="0,00" required id="id_eletro_vl" class="form-control edValor" /></td>
+       </tr>
+       <tr>
+        <td>Relógios/td>
+        <td><input type="number" name="relogio_qt" value="0" min="0" required id="id_relogio_qt"class="form-control" /></td>
+        <td><input type="text" name="relogio_vl" value="0,00" required id="id_relogio_vl" class="form-control edValor" /></td>
+       </tr>
+       <tr>
+        <td>Instrumentos Musicais, Mesas e Módulos</td>
+        <td><input type="number" name="musical_qt" value="0" min="0" required id="id_musical_qt" class="form-control" /></td>
+        <td><input type="text" name="musical_vl" value="0,00" required id="id_musical_vl" class="form-control edValor" /></td>
+       </tr>
+       <tr>
+        <td>Vestuário</td>
+        <td><input type="number" name="vestuario_qt" value="0" min="0" required id="id_vestuario_qt" class="form-control" /></td>
+        <td><input type="text" name="vestuario_vl" value="0,00" required id="id_vestuario_vl" class="form-control edValor" /></td>
+       </tr>
+       <tr>
+        <td>Higiene Pessoal, Perfumes e Cosméticos</td>
+        <td><input type="number" name="perfume_qt" value="0" min="0" required id="id_perfume_qt" class="form-control" /></td>
+        <td><input type="text" name="perfume_vl" value="0,00" required id="id_perfume_vl" class="form-control edValor" /></td>
+       </tr>
+        <tr>
+        <td colspan="3"><hr></td>
+          </tr>
+            <tr>
+          <td>Valor Total</td>
+          <td colspan="2"><input type="text" readonly id="id_total" class="form-control" /></td>
+      </tr>
+        <tr>
+        <td colspan="3"><hr></td>
+      </tr>
+      <tr>
+        <td colspan="3"><button class="btn btn-primary btn-lg btn-block" type="submit">Salvar</button></td>
+      </tr>
+    </table>
+
+
+
+</form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$( document ).ready(function() {
+    $("#id_brinquedo_qt").focus().select();
+
+    $('.edValor').blur( function() {
+        var total = 0.00;
+        $('.edValor').each(function(){
+            total = parseFloat($(this).val().replace(',', '.')) + parseFloat(total);
+        });
+        $('#id_total').val(total.toFixed(2).replace('.', ','));
+    });
+
+});
+</script>
+{% endblock %}

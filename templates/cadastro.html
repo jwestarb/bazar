@@ -1,0 +1,129 @@
+{% extends '_base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div>
+    <h2>Cadastro</h2>
+
+     <form action="{% url 'cadastro' %}" method="post" novalidate>
+     {% csrf_token %}
+        <div class="row">
+          <div class="col-6">
+            {{ form.senha.label_tag }}
+            {% render_field form.senha class="form-control" value=nova_senha %}
+            {% if form.senha.errors %}
+                {% for error in form.senha.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {%  endfor %}
+            {% endif %}
+          </div>
+          <div class="col-6">
+            {{ form.cpf.label_tag }}
+            {% render_field form.cpf class="form-control" %}
+            {% if form.cpf.errors %}
+                {% for error in form.cpf.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {%  endfor %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            {{ form.nome.label_tag }}
+            {% render_field form.nome class="form-control" %}
+              {% if form.nome.errors %}
+                {% for error in form.nome.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {%  endfor %}
+            {% endif %}
+            </div>
+          <div class="col-6">
+            {{ form.email.label_tag }}
+            {% render_field form.email class="form-control" %}
+              {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {%  endfor %}
+            {% endif %}
+          </div>
+        </div>
+        <hr class="mb-6">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Salvar</button>
+    </form>
+
+    <hr class="mb-6">
+
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">Senha</th>
+          <th scope="col">CPF</th>
+          <th scope="col">Nome</th>
+          <th scope="col">E-mail</th>
+            <th></th>
+        </tr>
+      </thead>
+      <tbody>
+    {% if cadastros %}
+        {% for cad in cadastros %}
+         <tr>
+          <th scope="row">{{ cad.senha }}</th>
+          <td>{{ cad.cpf }}</td>
+          <td>{{ cad.nome }}</td>
+          <td>{{ cad.email }}</td>
+         <td>
+             <a class="btn btn-danger btn-sm" href="{% url 'cadastro_delete' cad.id %}" aria-label="Delete">
+              <i class="fa fa-trash-o fa-sm" aria-hidden="true"></i></a>
+             <a class="btn btn-primary btn-sm" href="{% url 'recibo_novo' cad.senha %}" aria-label="Emitir Recibo">
+              <i class="fa fa-shopping-cart fa-sm" aria-hidden="true"></i></a>
+         </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+          <th scope="row" colspan="4">Nenhum registro encontrado.</th>
+        </tr>
+    {% endif %}
+       </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if cadastros.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ cadastros.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ cadastros.number }} of {{ cadastros.paginator.num_pages }}.
+            </span>
+
+            {% if cadastros.has_next %}
+                <a href="?page={{ cadastros.next_page_number }}">next</a>
+                <a href="?page={{ cadastros.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$( document ).ready(function() {
+    edCpf = $("#id_cpf");
+    edCpf.focus().select();
+    edCpf.keyup(function() {
+       $(this).val(this.value.replace(/\D/g, ''));
+    });
+    edCpf.on('keypress', function (e) {
+        if(e.ctrlKey === true){
+            if(e.keyCode === 17){
+                $('#id_cpf').val(CPF.generate('digits'));
+            }
+        }
+    });
+
+});
+</script>
+{% endblock %}

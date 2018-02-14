@@ -1,0 +1,89 @@
+{% extends '_base.html' %}
+
+{% block content %}
+
+<div>
+    <h2>Lista de Recibos</h2>
+
+    <hr>
+
+    <form class="form-inline">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="id_cadastro" style="margin-right: 15px;">Senha: </label>
+        <input type="text" class="form-control" id="id_cadastro">
+      </div>
+      <button type="submit" class="btn btn-primary mb-2" id="btn_novo">Novo Recibo</button>
+    </form>
+
+    <hr>
+
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">Numero</th>
+          <th scope="col">Senha</th>
+          <th scope="col">CPF</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Valor Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+    {% if recibos %}
+        {% for rec in recibos %}
+         <tr>
+          <th scope="row">{{ rec.id }}</th>
+          <td>{{ rec.cadastro.senha }}</td>
+          <td>{{ rec.cadastro.cpf }}</td>
+          <td>{{ rec.cadastro.nome }}</td>
+          <td>{{ rec.total }}</td>
+          <td>
+              <a class="btn btn-danger btn-sm" href="{% url 'recibo_delete' rec.id %}" aria-label="Delete">
+              <i class="fa fa-trash-o fa-sm" aria-hidden="true"></i></a>
+              <a class="btn btn-primary btn-sm" href="#" onclick="openPrintDialogue({{ rec.id}} );" aria-label="Impimir Recibo">
+              <i class="fa fa-print fa-sm" aria-hidden="true"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+          <th scope="row" colspan="5">Nenhum registro encontrado.</th>
+        </tr>
+    {% endif %}
+       </tbody>
+    </table>
+</div>
+
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+$( document ).ready(function() {
+    $("#id_cadastro").focus().select();
+
+    $("#btn_novo").click(function(e) {
+        e.preventDefault();
+        var senha = $("#id_cadastro").val();
+
+        if ($.isNumeric(senha)) {
+            window.location.href = "/recibo/novo/" + senha;
+        } else {
+            alert("Insira um número válido no campo Senha.");
+        }
+    });
+});
+
+function openPrintDialogue(recibo){
+  $('<iframe>', {
+    name: 'print_iframe',
+    class: 'printFrame'
+  }).appendTo('body').attr('src', '/recibo/imprimir/' + recibo +  '/');
+
+  window.frames['print_iframe'].focus();
+
+  setTimeout(() => { $(".printFrame").remove(); }, 1000)
+};
+
+
+</script>
+{% endblock %}
+

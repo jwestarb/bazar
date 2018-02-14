@@ -1,0 +1,38 @@
+{% extends '_base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+</div>
+
+        <div class="container">
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Cadastros</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">{{ qtd_cadastro }}</h1>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Total Vendas</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">R$ {{  total_vendas.total__sum|intcomma }}</h1>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Média por Cadastro</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">R$ {{ media_vendas.total__avg|intcomma }}</h1>
+          </div>
+        </div>
+      </div>
+
+{% endblock %}

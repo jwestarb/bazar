@@ -1,0 +1,70 @@
+<table class="tabelaPagina">
+      <tr>
+          <td><b>Associacao Congregacao de Santa Catarina</b><br>
+            Av Paulista, N 200 – Bela Vista – SP<br>
+            CNPJ nº 60.922.168/0001-86<br>
+            www.acsc.org.br<br>
+          </td>
+        <td colspan="2">
+            Recibo nº: {{ rec.id }} <br><br>
+            Senha  nº: {{ rec.cadastro.senha }}<br>
+        </td>
+      </tr>
+      <tr>
+          <td colspan="3">Recebemos de {{ rec.cadastro.nome }}, CPF: {{ rec.cadastro.cpf_format }} a importância de R$ {{ rec.total }} referente a aquisição dos itens abaixo elencados no bazar do hospital São José com mercadorias apreendidas pela RECEITA FEDERAL.</td>
+      </tr>
+        <tr>
+        <td><b>Item</b></td>
+        <td><b>Qtd.</b></td>
+        <td><b>Valor</b></td>
+       </tr>
+        <tr>
+        <td>Brinquedos</td>
+        <td>{{ rec.brinquedo_qt }}</td>
+        <td>R$ {{ rec.brinquedo_vl }}</td>
+       </tr>
+       <tr>
+        <td>Artigos de Bazar</td>
+        <td>{{ rec.bazar_qt }}</td>
+        <td>R$ {{ rec.bazar_vl }}</td>
+       </tr>
+       <tr>
+        <td>Equipamentos Eletrônicos</td>
+        <td>{{ rec.eletro_qt }}</td>
+        <td>R$ {{ rec.eletro_vl }}</td>
+       </tr>
+       <tr>
+        <td>Relógios</td>
+        <td>{{ rec.relogio_qt }}</td>
+        <td>R$ {{ rec.relogio_vl }}</td>
+       </tr>
+       <tr>
+        <td>Instrumentos Musicais, Mesas e Módulos</td>
+        <td>{{ rec.musical_qt }}</td>
+        <td>R$ {{ rec.musical_vl }}</td>
+       </tr>
+       <tr>
+        <td>Vestuário</td>
+        <td>{{ rec.vestuario_qt }}</td>
+        <td>R$ {{ rec.vestuario_vl }}</td>
+       </tr>
+       <tr>
+        <td>Higiene Pessoal, Perfumes e Cosméticos</td>
+        <td>{{ rec.perfume_qt }}</td>
+        <td>R$ {{ rec.perfume_vl }}</td>
+       </tr>
+        <tr>
+        <td colspan="3">
+            "AS MERCADORIAS NÃO PODERÃO SER UTILIZADAS PARA A VENDA NO COMÉRCIO, SOB PENA DE APREENSÃO POR PARTE DAS AUTORIDADES COMPETENTES"<br>
+            "OS PRODUTOS NÃO SERÃO TESTADOS E NÃO SERÁ PERMITIDA A TROCA E/OU SUBSTITUIÇÃO DE MERCADORIAS COM EVENTUAIS FALHAS"
+        </td>
+       </tr>
+        <tr>
+        <td ><br><br>
+            ___________________________________________________________<br>
+            <span style="padding-left: 180px;">TESOURARIA</span>
+        </td>
+        <td colspan="2">{{ rec.data_hora }}</td>
+       </tr>
+
+    </table>
