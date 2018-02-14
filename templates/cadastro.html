@@ -87,23 +87,22 @@
        </tbody>
     </table>
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if cadastros.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ cadastros.previous_page_number }}">previous</a>
-            {% endif %}
+    <nav aria-label="Paginação">
+      <ul class="pagination justify-content-center">
+      {% if cadastros.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">Primeira</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ cadastros.previous_page_number }}">Anterior</a></li>
+      {% endif %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Página {{ cadastros.number }} de {{ cadastros.paginator.num_pages }}</a>
+            </li>
+      {% if cadastros.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ cadastros.next_page_number }}">Próxima</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ cadastros.paginator.num_pages }}">Última</a></li>
+      {% endif %}
+      </ul>
+    </nav>
 
-            <span class="current">
-                Page {{ cadastros.number }} of {{ cadastros.paginator.num_pages }}.
-            </span>
-
-            {% if cadastros.has_next %}
-                <a href="?page={{ cadastros.next_page_number }}">next</a>
-                <a href="?page={{ cadastros.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
 
 </div>
 {% endblock %}
