@@ -1,1 +1,1 @@
-c:\Users\julio.westarb.ACSC-SUL\.venvbazar\Scripts\activate.bat
+%USERPROFILE%\.venvbazar\Scripts\activate.bat
