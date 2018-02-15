@@ -27,7 +27,7 @@ def generate_cpf():
 
     return '%s%s%s%s%s%s%s%s%s%s%s' % tuple(cpf)
 
-for i in range(1, 3000 ):
+for i in range(1, 1000 ):
     cad = Cadastro()
     cad.senha = i
     cad.cpf = generate_cpf()

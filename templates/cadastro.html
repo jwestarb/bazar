@@ -70,7 +70,7 @@
           <th scope="row">{{ cad.senha }}</th>
           <td>{{ cad.cpf }}</td>
           <td>{{ cad.nome }}</td>
-          <td>{{ cad.email }}</td>
+          <td>{{ cad.email|default_if_none:"" }}</td>
          <td>
              <a class="btn btn-danger btn-sm" href="{% url 'cadastro_delete' cad.id %}" aria-label="Delete">
               <i class="fa fa-trash-o fa-sm" aria-hidden="true"></i></a>

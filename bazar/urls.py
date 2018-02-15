@@ -26,4 +26,6 @@ urlpatterns = [
     path('recibo/novo/<int:senha>/', views.recibo_novo, name='recibo_novo'),
     path('recibo/imprimir/<int:recibo_id>/', views.recibo_imprimir, name='recibo_imprimir'),
     path('recibo/delete/<int:recibo_id>/', views.recibo_delete, name='recibo_delete'),
+    path('export/', views.export_excel, name='export_excel'),
+
 ]

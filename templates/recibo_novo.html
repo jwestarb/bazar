@@ -32,6 +32,10 @@
         <td colspan="2">{{ cadastro.nome }}</td>
       </tr>
       <tr>
+        <td>Valor acumulado compras:</td>
+        <td colspan="2" style="color: {{ cor_alerta }}">R$ {{ soma_compras.total_compras|default_if_none:0 }}</td>
+      </tr>
+      <tr>
         <td colspan="3"><hr></td>
       </tr>
 
@@ -56,7 +60,7 @@
         <td><input type="text" name="eletro_vl" value="0,00" required id="id_eletro_vl" class="form-control edValor" /></td>
        </tr>
        <tr>
-        <td>Relógios/td>
+        <td>Relógios</td>
         <td><input type="number" name="relogio_qt" value="0" min="0" required id="id_relogio_qt"class="form-control" /></td>
         <td><input type="text" name="relogio_vl" value="0,00" required id="id_relogio_vl" class="form-control edValor" /></td>
        </tr>

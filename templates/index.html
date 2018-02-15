@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load static from staticfiles %}
 {% load humanize %}
 
 {% block content %}
@@ -7,7 +8,6 @@
     <h1 class="h2">Dashboard</h1>
 </div>
 
-        <div class="container">
       <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
           <div class="card-header">
@@ -22,7 +22,7 @@
             <h4 class="my-0 font-weight-normal">Total Vendas</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title">R$ {{  total_vendas.total__sum|intcomma }}</h1>
+            <h1 class="card-title pricing-card-title">R$ {{  total_vendas.total__sum|default_if_none:0|floatformat:"0"|intcomma }}</h1>
           </div>
         </div>
         <div class="card mb-4 box-shadow">
@@ -30,9 +30,82 @@
             <h4 class="my-0 font-weight-normal">Média por Cadastro</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title">R$ {{ media_vendas.total__avg|intcomma }}</h1>
+            <h1 class="card-title pricing-card-title">R$ {{ media_vendas.total__avg|default_if_none:0|floatformat:"0"|intcomma }}</h1>
           </div>
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-6">
+      <table class="table table-striped table-sm ">
+      <thead>
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Qtd</th>
+          <th scope="col">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% if vendas_por_dia %}
+        {% for vd in vendas_por_dia %}
+         <tr>
+          <th scope="row">{{ vd.dia|date:"d/m/Y" }}</th>
+          <td>{{ vd.qtd }}</td>
+          <td>{{ vd.total|floatformat:"0"|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <th scope="row" colspan="4">Nenhum registro encontrado.</th>
+        </tr>
+      {% endif %}
+       </tbody>
+    </table>
+        </div>
+          <div class="col-6"></div>
+      </div>
+
+    <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static  'js/Chart.min.js' %}"></script>
+    <script type="text/javascript">
+    var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+              {% for ch in cad_por_hora %}
+                "{{ ch.hora }}"{% if not forloop.last %},{% endif %}
+              {% endfor %}
+          ],
+          datasets: [{
+            data: [
+                {% for ch in cad_por_hora %}
+                    {{ ch.qtd }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#007bff',
+            borderWidth: 4,
+            pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+    </script>
 {% endblock %}
